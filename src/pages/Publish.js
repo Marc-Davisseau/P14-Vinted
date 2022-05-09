@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const Publish = ({ token }) => {
 //   const [picture, setPicture] = useState("");
   const [title, setTitle] = useState("");
@@ -13,59 +14,60 @@ const Publish = ({ token }) => {
   const [city, setCity] = useState("");
   const [price, setPrice] = useState("");
   const [interest, setInterest] =useState(false);
-  const [file, setFile] = useState({});
-
+  const [picture, setPicture] = useState({});
+//   const [file, setFile] = useState({});
 const userToken = token 
 
   const navigate = useNavigate();
+  console.log(token);
+//   const handlePublish = async (event) => {
 
-  const handlePublish = async (event) => {
 
-
-console.log(userToken)
+// console.log(userToken)
 
     
-        try {
-            event.preventDefault();
+//         try {
+//             event.preventDefault();
 
-            const response = await axios.post(
-              "https://lereacteur-vinted-api.herokuapp.com/offer/publish",
+//             const response = await axios.post(
+//               "https://lereacteur-vinted-api.herokuapp.com/offer/publish",
             
           
-            {
-                title: title,
-                description: description,
-                price: price,
-                condition: condition,
-                city: city,
-                brand: brand,
-                size: size,
-                color: color,
-                picture: file// le fichier image sélectionné par l'utilisateur
-              }, 
-{
-                headers: {
-                  authorization: `Bearer ${token}`
-                }}
-            );
-            console.log(response.data);
-      if (response.data) {
+//             {
+//                 title: title,
+//                 description: description,
+//                 price: price,
+//                 condition: condition,
+//                 city: city,
+//                 brand: brand,
+//                 size: size,
+//                 color: color,
+//                 picture: file// le fichier image sélectionné par l'utilisateur
+//               }, 
+// {
+//                 headers: {
+//                   authorization: `Bearer ${token}`
+//                 }}
+//             );
+//             console.log(response.data);
+//       if (response.data) {
     
-              // redirection
-              navigate("/");
+//               // redirection
+//               navigate("/");
             
-          } }catch (error) {
-            console.log(error.message);
-          }
- }
+//           } }catch (error) {
+//             console.log(error.message);
+//           }
+//  }
 
 
 
 
 
   return (
-    <form onSubmit={handlePublish}>
-      <h1>Vends ton article</h1>
+ 
+<section>
+      <div className="container">
 
 
       <form
@@ -73,7 +75,22 @@ console.log(userToken)
             e.preventDefault();
 
             const formData = new FormData();
-            formData.append("files", file);
+            // formData.append("files", file);
+            formData.append("picture", picture);
+            formData.append("title", title);
+            formData.append("description", description);
+            formData.append("price", price);
+            formData.append("condition", condition);
+            formData.append("city", city);
+            formData.append("brand",  brand);
+            formData.append("size", size);
+            formData.append("color", color);
+            formData.append("brand",  brand);
+      
+            formData.append("title", title);
+
+
+
 
             try {
               const response = await axios.post(
@@ -85,8 +102,7 @@ console.log(userToken)
                     "Content-Type": "multipart/form-data"
                   }
                 }
-              );
-
+              )
               alert(JSON.stringify(response.data));
             } catch (err) {
               if (err.response.status === 500) {
@@ -97,14 +113,13 @@ console.log(userToken)
             }
           }}
         >
-            <input
+
+          <input
             type="file"
             onChange={event => {
-              setFile(event.target.files[0]);
+              setPicture(event.target.files[0]);
             }}
           />
-          <input type="submit" />
-        </form>
 
 
       <br />
@@ -171,12 +186,12 @@ console.log(userToken)
       /> Je suis intéressé(e) par les échanges
       <br />
 
-      <input type="submit" value="Ajouter" 
-      onSubmit={handlePublish}
-      
-      />
-      <br />
-    </form>
+      <input type="submit"
+/>
+
+      </form>
+      </div>
+    </section>
   );
 };
 
