@@ -1,0 +1,23 @@
+//syntaxte css
+/* header p {
+  color: red;
+}
+
+header a {
+  color: purple;
+  background: lawngreen;
+} */
+
+//syntaxe scss
+.header-component {
+  background: grey;
+  height: 50px;
+  display: flex;
+  p {
+    color: red;
+  }
+  a {
+    color: purple;
+    background: lawngreen;
+  }
+}
