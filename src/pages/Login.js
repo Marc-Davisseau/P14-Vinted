@@ -12,7 +12,7 @@ const Login = ({ setUser }) => {
     try {
       event.preventDefault();
       const response = await axios.post(
-        "https://lereacteur-vinted-api.herokuapp.com/user/login",
+        "http://localhost:4000/user/login",
         {
           email: email,
           password: password,
@@ -23,7 +23,7 @@ const Login = ({ setUser }) => {
       if (response.data.token) {
         setUser(response.data.token);
         // redirection
-        navigate("/");
+        navigate("/payment");
       }
     } catch (error) {
       console.log(error.message);

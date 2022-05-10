@@ -11,7 +11,8 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `https://lereacteur-vinted-api.herokuapp.com/offers?limit=3&page=${page}`
+        `http://localhost:4000/offers?offerPerPage=3&page=${page}`
+        // `https://lereacteur-vinted-api.herokuapp.com/offers?limit=3&page=${page}`
       );
       // console.log(response.data);
       setData(response.data);
@@ -27,7 +28,7 @@ const Home = () => {
 
       <button onClick={() => setPage(page - 1)}>Page précédente</button>
       <button onClick={() => setPage(page + 1)}>Page suivante</button>
-      {data.offers.map((offer) => {
+      {data.search.map((offer) => {
         // console.log(offer._id);
         return (
           <Link to={`/offer/${offer._id}`} key={offer._id}>

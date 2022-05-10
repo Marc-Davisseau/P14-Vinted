@@ -1,18 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useRoutes } from "react-router-dom";
 import "./header.scss";
 
-const Header = ({ token, setUser }) => {
+const Header = ({ token, setUser }) => {console.log(window.location.pathname)
   const navigate = useNavigate();
-  return (
+  return (  
     <header className="header-component">
-      <p>My header !</p>
+
+      <p style = {{ display : (window.location.pathname=== "/" && "/home") ? "none":""} }   ><Link to="/">Accueil</Link></p>
       {token === null ? (
-        <div>
-          <Link to="/signup">S'inscrire</Link>
-          <br />
-          <Link to="/login">Se connecter</Link>
-          <br />
-          <Link to="/login">Vends tes articles</Link>
+        <div className="menu">
+          <section>      <Link to="/signup">S'inscrire</Link></section>
+          <section>    <Link to="/login">Se connecter</Link></section>
+          <section>         <Link to="/login">Vends tes articles</Link></section>
+
+ 
         </div>
       ) : (
 
@@ -28,6 +29,9 @@ const Header = ({ token, setUser }) => {
         </button>
        <div>
            <Link to="/publish">Vends tes articles</Link>
+       </div>
+       <div>
+ 
        </div>
        </div>
       )}

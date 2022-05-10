@@ -76,25 +76,36 @@ const userToken = token
 
             const formData = new FormData();
             // formData.append("files", file);
-            formData.append("picture", picture);
-            formData.append("title", title);
-            formData.append("description", description);
-            formData.append("price", price);
-            formData.append("condition", condition);
-            formData.append("city", city);
-            formData.append("brand",  brand);
-            formData.append("size", size);
-            formData.append("color", color);
-            formData.append("brand",  brand);
+            // formData.append("picture", picture);
+            // formData.append("title", title);
+            // formData.append("description", description);
+            // formData.append("price", price);
+            // formData.append("condition", condition);
+            // formData.append("city", city);
+            // formData.append("brand",  brand);
+            // formData.append("size", size);
+            // formData.append("color", color);
+            // formData.append("brand",  brand);
       
-            formData.append("title", title);
+            // formData.append("title", title);
 
+
+            formData.append("picture", picture);
+            formData.append("product_name", title);
+            formData.append("product_description", description);
+            formData.append("product_price", price);
+            formData.append("product_details_etat", condition);
+            formData.append("product_details_emplacement", city);
+            formData.append("product_details_marque",  brand);
+            formData.append("product_details_taille", size);
+            formData.append("product_details_couleur", color);
+            // formData.append("title", title);
 
 
 
             try {
               const response = await axios.post(
-            "https://lereacteur-vinted-api.herokuapp.com/offer/publish",
+            "http://localhost:4000/offer/publish",
                 formData,
                 {
                   headers: {
@@ -104,6 +115,7 @@ const userToken = token
                 }
               )
               alert(JSON.stringify(response.data));
+              navigate("/")
             } catch (err) {
               if (err.response.status === 500) {
                 console.error("An error occurred");
