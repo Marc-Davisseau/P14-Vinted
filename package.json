@@ -20,7 +20,9 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.51.0",
+    "stripe": "^9.0.0",
     "uid2": "^1.0.0",
+    "use-location-state": "^3.0.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

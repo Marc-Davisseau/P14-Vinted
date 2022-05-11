@@ -1,4 +1,4 @@
-import { Link, useNavigate, useRoutes } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./header.scss";
 
 const Header = ({ token, setUser }) => {console.log(window.location.pathname)
