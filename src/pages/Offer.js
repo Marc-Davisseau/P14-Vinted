@@ -8,11 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const Offer = ( {setIdd} ) => {
   // const params = useParams();
-  const product_price =data.product_price;
-  const product_name =data.product_name;
-  const product_description =data.product_description;
-  const product_details =data.product_details;
-  const { id } = useParams();
+   const { id } = useParams();
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -22,7 +18,7 @@ const Offer = ( {setIdd} ) => {
 
 console.log(data)
 setIdd({id})
-navigate("/payment", { state: { id2:"id"  ,  name: `data.puct_name`, price: product_price, description: product_description, detail : product_details } });
+navigate("/payment", { state: { id2:"id" } });
   }
  catch (error) {
   console.log(error.message);

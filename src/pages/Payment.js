@@ -17,13 +17,15 @@ const Payment =( { token }  ) =>{
   const { name } = location.state 
   // state: { name: data.product_name, price: data.product_price, description: data.product_description, detail : data.product_details } })
   const userToken = token 
-
-  console.log(name)
+ 
 return (token) ? (
+
+
 <div>
 <span>Résumé de la commande</span>
 <span>product_name</span>
 <span>{name}</span>
+
 <Elements stripe={stripePromise}  >
       <CheckoutForm id2={id2} name={name} price={price} description={description} detail={detail}/>
     </Elements>
