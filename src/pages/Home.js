@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [data, setData] = useState();
+  const [term, setTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [page, setPage] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `http://localhost:4000/offers?offerPerPage=3&page=${page}`
+        `https://vintedback-mda.herokuapp.com/offers?offerPerPage=6&page=${page}&title=${term}`
         // `https://lereacteur-vinted-api.herokuapp.com/offers?limit=3&page=${page}`
       );
       // console.log(response.data);
@@ -19,30 +20,47 @@ const Home = () => {
       setIsLoading(false);
     };
     fetchData();
-  }, [page]);
+  }, [page,term]);
   return isLoading === true ? (
     <div>En cours de chargement</div>
   ) : (
-    <div>
-      <p>Les offres Vinted !</p>
-
-      <button onClick={() => setPage(page - 1)}>Page précédente</button>
-      <button onClick={() => setPage(page + 1)}>Page suivante</button>
+    <div className="main">
+      <div className="headerbis">
+      <h2  className="headerbistitre">Les articles vinted</h2>
+      <input 
+    className='searchbar-input' 
+    type='text' 
+    placeholder="Recherche par article"
+    onChange={event => setTerm(event.target.value)}
+    value={term}/>
+ 
+      <button className="page" onClick={() => setPage(page - 1)} style ={{display: (page > ((data.count/6)))? "" : "none"    }} >-</button>
+      <button className="page" onClick={() => setPage(page + 1)} style ={{display: (page < 1 || (page*6 > data.count) )? "none" : ""    }}>+</button>
+      </div>
+<div className="mainhome">
       {data.search.map((offer) => {
         // console.log(offer._id);
         return (
+          <div className="card">
           <Link to={`/offer/${offer._id}`} key={offer._id}>
-            <div className="card">
-              <h2>{offer.product_name}</h2>
-              <img
-                style={{ height: 150 }}
-                src={offer.product_image.secure_url}
-                alt=""
-              />
+            <div>
+
+            <p><img style={{width:230 , height:300}}src={offer.product_image.secure_url} alt="" /></p>
+              <div className="cardInformation">
+
+         
+                <p>{offer.product_price}€</p>
+                  <p className="cardSubInformation">taille :{offer.product_details[1]["TAILLE"]}<br />
+                  {offer.product_details[0]["MARQUE"]}
+                  </p>
+     
+              </div>
             </div>
           </Link>
+          </div>
         );
       })}
+      </div>
     </div>
   );
 };

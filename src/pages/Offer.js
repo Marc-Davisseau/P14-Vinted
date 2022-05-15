@@ -2,33 +2,31 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"; 
 
 
 
+const Offer = (  ) => {
 
-const Offer = ( {setIdd} ) => {
   // const params = useParams();
    const { id } = useParams();
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const onButtonClick = async (data) =>{
-    try {
-    
+//   const onButtonClick = async (data) =>{
+ 
+ 
+// // state={{ title: data.product_name, price: data.product_price }
 
-console.log(data)
-setIdd({id})
-navigate("/payment", { state: { id2:"id" } });
-  }
- catch (error) {
-  console.log(error.message);
-}
-};
+// // setIdd({id})
+// // navigate("/payment", { state: { id2:"id" } });
+
+// };
   
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        `http://localhost:4000/offer/${id}`
+        `https://vintedback-mda.herokuapp.com/offer/${id}`
       );
       console.log(response.data);
       setData(response.data);
@@ -40,33 +38,46 @@ navigate("/payment", { state: { id2:"id" } });
   return isLoading === true ? (
     <div>En cours de chargement</div>
   ) : (
-    <div>
-      <h2>{data.product_name}</h2>
-      <div>
-      {data.owner.Username}
-      <img style={{ height: 50, borderRadius:50 }}  src={data.avatar} alt="" />
-      <button
-  onClick={()=>onButtonClick(data._id)}
-      >Acheter</button>
-     <div>
-       <img style={{ width: 250, borderRadius:50 }}  src={data.product_image} alt="" />
+    <div className="main" style={{display: "flex"}}>
+  
+  
+     <div className="imageOffer">
+       <img   src={data.product_image} alt="" />
        </div>
-      </div>
-      <span>{data.product_price} €</span>
-      <div>
-        {data.product_details.map((item, index) => {
-          const keys = Object.keys(item);
+      
 
-          return (
-            <div key={index}>
-              <p>
-                {keys[0]} : {item[keys[0]]}
-              </p>
-            </div>
-          );
-        })}
+<div>
+    
+      <button >
+       <Link to="/payment" state={{ title: data.product_name, price: data.product_price, image:data.product_image  }} >
+Acheter
+</Link>
+       
+</button>
+
+
+<section className="cardSubInformationPrice">  <h2>{data.product_price} €</h2></section>
+
+<section><p className="cardSubInformation">MARQUE</p><p className="cardSubInformation">{data.product_details[0]["MARQUE"]}</p></section>
+<section><p className="cardSubInformation">TAILLE</p><p className="cardSubInformation" > {data.product_details[1]["TAILLE"]}</p></section>
+<section><p className="cardSubInformation">ETAT</p><p className="cardSubInformation">  {data.product_details[2]["ETAT"]}</p></section>
+<section><p className="cardSubInformation">COULEUR</p><p className="cardSubInformation" >   {data.product_details[3]["COULEUR"]}</p></section>
+<section><p className="cardSubInformation">EMPLACEMENT</p><p className="cardSubInformation" >  {data.product_details[4]["EMPLACEMENT"]}</p> </section>
+
+
+<p>{data.product_name}</p>
+<p className="cardSubInformation2">{data.product_description}</p>
+
+      <div>
+      <img style={{ height: 50, borderRadius:50 }}  src={data.avatar} alt="" />
+      {data.owner.Username}
       </div>
-    </div>
+
+
+</div>
+</div>
+
+      
   );
 };
 

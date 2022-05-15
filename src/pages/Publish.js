@@ -2,9 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const Publish = ({ token }) => {
-//   const [picture, setPicture] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [brand, setBrand] = useState("");
@@ -15,81 +13,20 @@ const Publish = ({ token }) => {
   const [price, setPrice] = useState("");
   const [interest, setInterest] =useState(false);
   const [picture, setPicture] = useState({});
-//   const [file, setFile] = useState({});
 const userToken = token 
-
   const navigate = useNavigate();
   console.log(token);
-//   const handlePublish = async (event) => {
-
-
-// console.log(userToken)
-
-    
-//         try {
-//             event.preventDefault();
-
-//             const response = await axios.post(
-//               "https://lereacteur-vinted-api.herokuapp.com/offer/publish",
-            
-          
-//             {
-//                 title: title,
-//                 description: description,
-//                 price: price,
-//                 condition: condition,
-//                 city: city,
-//                 brand: brand,
-//                 size: size,
-//                 color: color,
-//                 picture: file// le fichier image sélectionné par l'utilisateur
-//               }, 
-// {
-//                 headers: {
-//                   authorization: `Bearer ${token}`
-//                 }}
-//             );
-//             console.log(response.data);
-//       if (response.data) {
-    
-//               // redirection
-//               navigate("/");
-            
-//           } }catch (error) {
-//             console.log(error.message);
-//           }
-//  }
-
-
-
-
 
   return (
  
 <section>
-      <div className="container">
+      <div className="main">
 
 
       <form
           onSubmit={async e => {
             e.preventDefault();
-
             const formData = new FormData();
-            // formData.append("files", file);
-            // formData.append("picture", picture);
-            // formData.append("title", title);
-            // formData.append("description", description);
-            // formData.append("price", price);
-            // formData.append("condition", condition);
-            // formData.append("city", city);
-            // formData.append("brand",  brand);
-            // formData.append("size", size);
-            // formData.append("color", color);
-            // formData.append("brand",  brand);
-      
-            // formData.append("title", title);
-
-
             formData.append("picture", picture);
             formData.append("product_name", title);
             formData.append("product_description", description);
@@ -99,13 +36,10 @@ const userToken = token
             formData.append("product_details_marque",  brand);
             formData.append("product_details_taille", size);
             formData.append("product_details_couleur", color);
-            // formData.append("title", title);
-
-
-
+        
             try {
               const response = await axios.post(
-            "http://localhost:4000/offer/publish",
+            "https://vintedback-mda.herokuapp.com/offer/publish",
                 formData,
                 {
                   headers: {
@@ -125,15 +59,12 @@ const userToken = token
             }
           }}
         >
-
           <input
             type="file"
             onChange={event => {
               setPicture(event.target.files[0]);
             }}
           />
-
-
       <br />
       <input
         type="text"
@@ -197,10 +128,7 @@ const userToken = token
         onChange={(event) => setInterest(!interest)}
       /> Je suis intéressé(e) par les échanges
       <br />
-
-      <input type="submit"
-/>
-
+      <input type="submit"/>
       </form>
       </div>
     </section>

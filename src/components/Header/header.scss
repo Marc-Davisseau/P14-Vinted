@@ -10,7 +10,8 @@ header a {
 
 //syntaxe scss
 .header-component {
-  background: grey;
+  
+  background: rgb(255, 255, 255);
   height: 50px;
   display: flex;
 justify-content: space-between;
@@ -19,7 +20,7 @@ justify-content: space-between;
   }
   a {
     color: purple;
-    background: lawngreen;
+
   }
 }
 
@@ -28,9 +29,9 @@ justify-content: space-between;
   display: flex;
   align-items: center;
   justify-content: space-around;
-margin-left: 40px;
-background-color: aqua;
-width: 75%;
 
+background-color: rgb(255, 255, 255);
+width: 100%;
+border-bottom: solid black 1px;
 }
 

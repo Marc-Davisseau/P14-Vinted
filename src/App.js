@@ -1,8 +1,6 @@
 import "./App.scss";
 
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
@@ -15,44 +13,44 @@ import Publish from "./pages/Publish";
 import Payment from "./pages/Payment";
 //components
 import Header from "./components/Header/Header";
-
 import Cookies from "js-cookie";
 
 
 
-
 function App() {
-  const [id2, setId2] = useState("null");
+
   const [id, setId] = useState("null");
   const [token, setToken] = useState(Cookies.get("userToken") || null);
-  const setUser = (token) => {
+  const [username, setUsername] = useState(Cookies.get("userName") || null);
+  const setUser = (token, username) => {
     if (token !== null) {
       //Action de connexion
       console.log("Création d'un cookie userTOken");
       Cookies.set("userToken", token, { expires: 10 });
+      Cookies.set("userName", username, { expires: 10 });
     } else {
       //action de déconnexion
       console.log("Suppression d'un cookie userToken");
       Cookies.remove("userToken");
+      Cookies.remove("userName");
     }
  ;
 
 
 
+
     setToken(token);
     console.log(`Mise à jour du state Token avec ${token}`);
+    setUsername(username);
+    console.log(`Mise à jour du state Token avec ${username}`);
+
+
+
+
   };
 
-  const setIdd = (x) => {
-    if (x !== null) {
-      setId2(x)
- console.log(id2)
-    }
-    else {
-      console.log(id2)
-      console.log("hed")
-    }
-  }
+  
+  
 
   return (
 
@@ -61,15 +59,15 @@ function App() {
 
 
     <Router>
-      <Header token={token} setUser={setUser} />
+      <Header token={token} username={username} setUser={setUser} />
 
       <Routes>
         <Route path="/home" element={<Home />} />
-        <Route path="/offer/:id" element={<Offer id={id} setIdd={setIdd} />} />
+        <Route path="/offer/:id" element={<Offer id={id}/>} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
         <Route path="/publish" element={<Publish token={token} />} />
-        <Route path="/payment" element={<Payment token={token} id2={id2}/>}/>
+        <Route path="/payment" element={<Payment token={token} />}/>
         <Route path="/" element={<Home/>} />
       </Routes>
     </Router>

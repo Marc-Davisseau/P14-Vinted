@@ -12,7 +12,7 @@ const Login = ({ setUser }) => {
     try {
       event.preventDefault();
       const response = await axios.post(
-        "http://localhost:4000/user/login",
+        "https://vintedback-mda.herokuapp.com/user/login",
         {
           email: email,
           password: password,
@@ -21,9 +21,9 @@ const Login = ({ setUser }) => {
 
       console.log(response.data);
       if (response.data.token) {
-        setUser(response.data.token);
+        setUser(response.data.token, response.data.account.username);
         // redirection
-        navigate("/payment");
+        navigate("/");
       }
     } catch (error) {
       console.log(error.message);
@@ -31,8 +31,9 @@ const Login = ({ setUser }) => {
   };
 
   return (
+    <div className="main">
     <form onSubmit={handleLogin}>
-      <h1>Login</h1>
+      <h1>Se connecter</h1>
       <input
         value={email}
         placeholder="email"
@@ -49,7 +50,12 @@ const Login = ({ setUser }) => {
       <br />
       <input type="submit" value="Se connecter" />
       <br />
+      <div>
+     <h3 onClick={()=>navigate ("/signup")} >S'inscrire</h3>
+     </div>
     </form>
+
+     </div>
   );
 };
 

@@ -1,58 +1,61 @@
-// src/CheckoutForm.js
-import { useState } from "react";
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { useState } from "react";
+import {useNavigate} from "react-router-dom"
 
-const CheckoutForm = ({id2}) => {
-  console.log(id2)
-  const stripe = useStripe();
+;
+
+export default function CheckoutForm({ price, title }) {
+
+    const showSomething = () => { 
+        navigate('/')
+      }
   const elements = useElements();
-
+  const stripe = useStripe();
+  const navigate = useNavigate();
   const [completed, setCompleted] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState();
+  const handlePayment = async (event) => {
+    try {
+      event.preventDefault();
+      //Récupérer les données bancaires
+      const cardInfos = elements.getElement(CardElement);
+      //envoyer ces données à l'api Stripe
+      const stripeResponse = await stripe.createToken(cardInfos, {
+        name: "Nicolas",
+      });
+      //   console.log(stripeResponse);
+      //Récupérer un stripToken
+      //Envoyer ce stripeTOken à l'api Vinted
+      const response = await axios.post(
+        "http://localhost:4000/payment",
+        {
+            stripeToken: stripeResponse.token.id,
+           amount: price,
+           title: title,
+        }
+      );
+      setCompleted(true)
+      if (response.data.status === "succeeded")
+      
+      {
+        setConfirmMessage(`Paiement validé pour l'achat de ${title} d'un montant de ${price}€`);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // On récupère ici les données bancaires que l'utilisateur rentre
-    const cardElement = elements.getElement(CardElement);
-
-    // Demande de création d'un token via l'API Stripe
-    // On envoie les données bancaires dans la requête
-    const stripeResponse = await stripe.createToken(cardElement, {
-      name: "L'id de l'acheteur",
-    });
-    console.log(stripeResponse);
-    const stripeToken = stripeResponse.token.id;
-    // Une fois le token reçu depuis l'API Stripe
-    // Requête vers notre serveur
-    // On envoie le token reçu depuis l'API Stripe
-    const response = await axios.post("http://localhost:4000/pay", {
-      stripeToken,
-    });
-    console.log(response.data);
-    // Si la réponse du serveur est favorable, la transaction a eu lieu
-    if (response.data.status === "succeeded") {
-      setCompleted(true);
+        setTimeout(showSomething, 3000);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
-
   return (
-    <>
-      {!completed ? (
-        <form onSubmit={handleSubmit}>
-          <CardElement />
-          <button type="submit">Pay</button>
-        </form>
-      ) : (
+    <form onSubmit={handlePayment}>
+       <CardElement /> 
+       <input type="submit" /> 
+      <span style={{ color: "green" }}>{confirmMessage}</span>
+
+  
 
 
-        <div>
-    <span>Paiement effectué ! </span>
-    <span>{id2}</span>
-        </div>
-      )}
-    </>
+    </form>
   );
-};
-
-export default CheckoutForm;
+}
